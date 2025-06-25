@@ -99,34 +99,12 @@ src/
    npm install
    ```
 
-3. **Environment Setup**
-   Create a `.env` file in the root directory:
-   ```env
-   # Server Configuration
-   PORT=5000
-   NODE_ENV=development
-
-   # Database (MongoDB Atlas)
-   MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/inventory-system?retryWrites=true&w=majority&appName=Cluster0
-
-   # JWT Authentication
-   JWT_SECRET=your-super-secret-jwt-key-here-at-least-32-characters-long
-   
-   # CORS Origins
-   ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
-
-   # Optional: Cloudinary (for image uploads)
-   CLOUDINARY_CLOUD_NAME=your-cloud-name
-   CLOUDINARY_API_KEY=your-api-key
-   CLOUDINARY_API_SECRET=your-api-secret
-   ```
-
-4. **Database Setup**
+3. **Database Setup**
    - Create a MongoDB Atlas cluster
    - Update the `MONGODB_URI` with your connection string
    - The application will automatically create indexes and collections
 
-5. **Run the application**
+4. **Run the application**
    ```bash
    # Development mode with hot reloading
    npm run dev
