@@ -5,17 +5,12 @@ services:
     buildCommand: npm install && npm run build
     startCommand: npm start
     healthCheckPath: /health
-          envVars:
-        - key: NODE_ENV
-          value: production  
-        - key: MONGODB_URI
-        fromDatabase:
-          name: inventory-system-db
-          property: connectionString
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        value: mongodb+srv://wynson30:Wynson050916*@cluster0.y5mroum.mongodb.net/inventory-system?retryWrites=true&w=majority&appName=Cluster0
       - key: JWT_SECRET
         generateValue: true
-        
-databases:
-  - name: inventory-system-db
-    databaseName: inventory-system
-    user: inventory-user 
+      - key: ALLOWED_ORIGINS
+        value: https://inventory-system-front-wyn.vercel.app,https://inventory-system-front-wine.vercel.app 
