@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: inventory-system-backend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+          envVars:
+        - key: NODE_ENV
+          value: production  
+        - key: MONGODB_URI
+        fromDatabase:
+          name: inventory-system-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+        
+databases:
+  - name: inventory-system-db
+    databaseName: inventory-system
+    user: inventory-user 
