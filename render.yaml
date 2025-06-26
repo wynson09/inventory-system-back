@@ -2,7 +2,23 @@ services:
   - type: web
     name: inventory-system-backend
     env: node
+    region: oregon
     buildCommand: npm ci && npm run build
-    startCommand: node start.js
+    startCommand: npm start
     healthCheckPath: /health
-    plan: free 
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        fromGroup: backend-env
+      - key: JWT_SECRET
+        fromGroup: backend-env
+      - key: CLOUDINARY_CLOUD_NAME
+        fromGroup: backend-env
+      - key: CLOUDINARY_API_KEY
+        fromGroup: backend-env
+      - key: CLOUDINARY_API_SECRET
+        fromGroup: backend-env 
