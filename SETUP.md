@@ -1,78 +1,165 @@
-# Quick Setup Guide for Inventory System Backend
+# Inventory System Backend - Setup Guide
 
-## ✅ What's Been Done
+## Quick Start
 
-1. **Package Dependencies**: Updated multer to v2.0.1 (latest secure version)
-2. **TypeScript Configuration**: Fixed all compilation errors
-3. **Environment Setup**: Created `.env` file with all necessary variables
-4. **Code Architecture**: Complete clean architecture implementation with:
-   - Models (User, Product)
-   - Repositories (UserRepository, ProductRepository)  
-   - Services (AuthService, ProductService)
-   - Controllers (AuthController, ProductController)
-   - Middleware (Authentication, Error Handling)
-   - Routes (Auth, Products)
+### Option 1: MongoDB Atlas (Recommended for Production)
+1. Create account at [MongoDB Atlas](https://www.mongodb.com/atlas)
+2. Create a new cluster
+3. Create database user and get connection string
+4. Replace `<password>` and `<dbname>` in connection string
 
-## 🚀 Quick Start
-
-### 1. Install MongoDB
-
-**Windows (using Chocolatey):**
+### Option 2: Local MongoDB
 ```bash
-choco install mongodb
+# Install MongoDB locally
+# Windows: Download from mongodb.com
+# macOS: brew install mongodb-community
+# Linux: sudo apt install mongodb
 ```
 
-**Windows (Manual):**
-1. Download MongoDB from https://www.mongodb.com/try/download/community
-2. Install and start MongoDB service
+## Environment Setup
 
-**Alternative - MongoDB Atlas (Cloud):**
-1. Create free account at https://www.mongodb.com/atlas
-2. Create cluster and get connection string
-3. Update `MONGODB_URI` in `.env` file
-
-### 2. Start MongoDB Locally
-
-```bash
-# Start MongoDB service
-net start MongoDB
-
-# Or start manually
-mongod --dbpath "C:\data\db"
+Create `.env` file:
+```env
+PORT=5000
+NODE_ENV=development
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/inventory-system
+JWT_SECRET=your-super-secret-jwt-key-min-32-characters
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
 ```
 
-### 3. Run the Backend
+## Development Setup
 
 ```bash
-# Development mode (with hot reload)
+# Install dependencies
+npm install
+
+# Run in development mode
 npm run dev
 
-# Production build
+# Build for production
 npm run build
+
+# Run production build
 npm start
 ```
 
-### 4. Test the API
+## Render Deployment
 
-The server will start on `http://localhost:5000`
+### Step 1: Prepare Repository
 
-**Health Check:**
-```bash
-curl http://localhost:5000/health
+1. **Update render.yaml** (already configured)
+2. **Set up environment variables** in Render dashboard
+3. **Push to GitHub**
+
+### Step 2: Create Environment Variable Group
+
+In Render dashboard:
+1. Go to Environment Groups
+2. Create new group named `backend-env`
+3. Add these variables:
+   - `MONGODB_URI`: Your MongoDB Atlas connection string
+   - `JWT_SECRET`: A secure 32+ character string
+   - `CLOUDINARY_CLOUD_NAME`: Your Cloudinary cloud name
+   - `CLOUDINARY_API_KEY`: Your Cloudinary API key
+   - `CLOUDINARY_API_SECRET`: Your Cloudinary API secret
+
+### Step 3: Deploy Service
+
+1. **Connect Repository**:
+   - Go to Render dashboard
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+
+2. **Configure Service**:
+   - **Name**: inventory-system-backend
+   - **Region**: Oregon (US West)
+   - **Branch**: main
+   - **Build Command**: `npm ci && npm run build`
+   - **Start Command**: `npm start`
+
+3. **Set Environment**:
+   - **Environment**: Node
+   - **Node Version**: 18 or higher (auto-detected)
+   - **Environment Group**: Select `backend-env`
+
+### Step 4: Manual Environment Variables (Alternative)
+
+If not using environment groups, add these directly:
+- `NODE_ENV`: production
+- `PORT`: 10000
+- `MONGODB_URI`: (your connection string)
+- `JWT_SECRET`: (your secret key)
+
+### Troubleshooting Deployment
+
+**Common Issues:**
+
+1. **Build Fails**: 
+   - Check Node.js version (needs 18+)
+   - Verify all dependencies are in package.json
+
+2. **Start Command Fails**:
+   - Ensure `npm start` script exists
+   - Check that `dist/server.js` is built
+
+3. **Environment Variables Missing**:
+   - Verify all required env vars are set
+   - Check environment group is linked
+
+4. **Database Connection Fails**:
+   - Verify MongoDB URI is correct
+   - Check MongoDB Atlas network access (allow 0.0.0.0/0)
+   - Ensure database user has proper permissions
+
+**Debug Steps:**
+1. Check Render logs for specific error messages
+2. Verify build completes successfully
+3. Test environment variables in Render shell
+4. Confirm database connectivity
+
+### Health Check
+
+Your service will be available at:
+- `https://your-service-name.onrender.com/health`
+
+Expected response:
+```json
+{
+  "status": "OK",
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "environment": "production",
+  "database": "connected"
+}
 ```
 
-**Register User:**
+## Testing
+
 ```bash
-curl -X POST http://localhost:5000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "admin@test.com",
-    "password": "password123",
-    "firstName": "Admin",
-    "lastName": "User",
-    "role": "admin"
-  }'
+# Run tests
+npm test
+
+# Run linting
+npm run lint
+
+# Format code
+npm run format
 ```
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/profile` - Get user profile
+
+### Products
+- `GET /api/products` - Get all products
+- `POST /api/products` - Create product
+- `GET /api/products/:id` - Get product by ID
+- `PUT /api/products/:id` - Update product
+- `DELETE /api/products/:id` - Delete product
 
 ## 📚 API Endpoints
 
