@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "postbuild": "node -e \"console.log('✅ Build completed. Files in dist:'); require('fs').readdirSync('./dist').forEach(f => console.log('  -', f));\"",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "test": "jest",
@@ -16,7 +17,8 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "format:src": "prettier --write src/**/*.ts"
+    "format:src": "prettier --write src/**/*.ts",
+    "debug": "node -e \"console.log('Working directory:', process.cwd()); console.log('Files in current dir:', require('fs').readdirSync('.')); console.log('Dist exists:', require('fs').existsSync('./dist')); console.log('Server.js exists:', require('fs').existsSync('./dist/server.js'));\""
   },
   "keywords": [
     "inventory",
