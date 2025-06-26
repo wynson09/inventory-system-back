@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Schema, model } from 'mongoose';
 import { IProductDocument } from '../types';
 

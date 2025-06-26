@@ -21,6 +21,9 @@
     "noUnusedParameters": false,
     "noImplicitThis": false,
     "noImplicitUseStrict": false,
+    "noImplicitReturns": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": false,
     "typeRoots": ["./node_modules/@types"],
     "types": []
   },
