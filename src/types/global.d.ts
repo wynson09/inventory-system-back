@@ -1,31 +1,41 @@
 // Global type declarations for Node.js environment
-declare var process: NodeJS.Process;
-declare var console: Console;
-declare var global: NodeJS.Global;
-declare var Buffer: BufferConstructor;
+declare var process: any;
+declare var console: any;
+declare var global: any;
+declare var Buffer: any;
 declare var __dirname: string;
 declare var __filename: string;
-declare var module: NodeModule;
-declare var require: NodeRequire;
+declare var module: any;
+declare var require: any;
 declare var exports: any;
+declare var setTimeout: any;
+declare var setInterval: any;
+declare var clearTimeout: any;
+declare var clearInterval: any;
+
+// Mongoose types
+declare module 'mongoose' {
+  interface ConnectOptions {
+    [key: string]: any;
+  }
+  
+  interface Connection {
+    on(event: string, callback: Function): void;
+    dropDatabase(): Promise<void>;
+  }
+}
 
 // Extend global namespace
 declare global {
   namespace NodeJS {
     interface Process {
-      env: ProcessEnv;
+      env: any;
+      exit(code?: number): void;
+      on(event: string, callback: Function): void;
     }
     
     interface ProcessEnv {
       [key: string]: string | undefined;
-      NODE_ENV?: 'development' | 'production' | 'test';
-      PORT?: string;
-      MONGODB_URI?: string;
-      JWT_SECRET?: string;
-      ALLOWED_ORIGINS?: string;
-      CLOUDINARY_CLOUD_NAME?: string;
-      CLOUDINARY_API_KEY?: string;
-      CLOUDINARY_API_SECRET?: string;
     }
   }
 } 
